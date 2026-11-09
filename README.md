@@ -10,6 +10,12 @@
 书架的斜投影画法参考了 [Wenku8_Flutter](https://github.com/mikufoxxx/Wenku8_Flutter) 的
 `lib/archive_wave.dart`：侧边正对观众，正面用一个错切矩阵斜着往右上方退。
 
+## 下载 Windows 便携版
+
+在 [GitHub Releases](https://github.com/getcibi/gamelib/releases/latest) 的 **Assets** 中下载 `gamelib-<版本>-portable.exe`。适用于 64 位 Windows，下载后双击即可打开。
+
+应用启动后会尝试读取本机 Steam 游戏库。Steam Web API Key 可在设置中选填，用于同步所选账号的游戏库和游玩时长。
+
 ## 怎么读 Steam
 
 **找全游戏**（几个来源合起来）：
@@ -146,3 +152,7 @@ Windows 版双击便携文件即可启动。在 Mac 上也能直接打 Windows �
 - `print.js`：条形码、分级标、功能图标
 - `styles.js`：两种盒子的尺寸；配色在 `style.css`
 - `stats.js` / `dashboard.js`：数据面板的统计和界面
+
+## 许可证
+
+gamelib 自有源码采用 [MIT 许可证](LICENSE)。第三方模型、库和素材的许可证与署名见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
