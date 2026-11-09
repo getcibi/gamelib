@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+config.json
+store_cache*.json
+tags.json
+tags.*.json

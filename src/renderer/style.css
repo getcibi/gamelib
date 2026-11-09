@@ -1,0 +1,1357 @@
+/* ---------------------------------------------------------------- 配色 */
+
+:root {
+  --paper: #f3efe6;
+  --ink: #1b1a19;
+  --ink-grey: #6b6760;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .09 0 0 0 0 .08 -2.2 0 0 0 1.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+
+/* 光盘盒：半透明蓝色塑料 */
+body[data-style='disc'] {
+  --plastic: #1b3c8c;
+  --plastic-l: #5c86e6;
+  --plastic-d: #0e2457;
+  --band-t: #2257d0;
+  --band-b: #123a99;
+  --band-h: 0.1;
+  --spine-body: #111827;
+  --spine-text: rgba(255, 255, 255, 0.92);
+  --spot: #1c4fc4;
+  --glow: 111, 168, 255;
+  --accent: #6fa8ff;
+}
+
+/* 卡带盒：红色塑料，白色书脊 */
+body[data-style='card'] {
+  --plastic: #d3202a;
+  --plastic-l: #ff6a6a;
+  --plastic-d: #8c0f16;
+  --band-t: #e8242e;
+  --band-b: #c3141d;
+  --band-h: 0.085;
+  --spine-body: #f4f4f2;
+  --spine-text: #1c1c1c;
+  --spot: #d9141e;
+  --glow: 255, 150, 150;
+  --accent: #ff7b7b;
+}
+
+/* ---------------------------------------------------------------- 页面 */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  color: #e9ecf3;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: radial-gradient(125% 125% at 50% 32%, #1c2747 0%, #0b1020 55%, #05070d 100%);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+#top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 26px 24px 0 36px;
+  flex: none;
+}
+#top[hidden] {
+  display: none;
+}
+#top h1 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+#top h1 img {
+  display: block;
+  flex: none;
+}
+#top h1,
+#count,
+.top-controls {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+#count {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  margin-left: 2px;
+}
+.spacer {
+  flex: 1;
+}
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+@media (max-width: 1040px) {
+  #top {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 18px 0;
+  }
+  #top > .spacer {
+    display: none;
+  }
+  .top-controls {
+    flex: 0 0 100%;
+    gap: 8px;
+  }
+  .top-controls .seg button {
+    padding-inline: 10px;
+  }
+}
+
+.chip {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.65);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chip.warn {
+  border-color: rgba(255, 193, 7, 0.45);
+  background: rgba(255, 193, 7, 0.12);
+  color: #ffc107;
+  cursor: default;
+}
+
+.seg {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.seg button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 7px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.75);
+}
+.seg button + button {
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+}
+.seg button.on {
+  background: rgba(var(--glow), 0.22);
+  color: #fff;
+}
+.seg svg,
+button.icon svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+button.icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+}
+button.icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+button.icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+#shelf {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  touch-action: none;
+  isolation: isolate;
+}
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#info {
+  height: 150px;
+  flex: none;
+  text-align: center;
+}
+.info-in {
+  animation: fade 0.22s ease-out;
+}
+.info-name {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 40px;
+}
+.info-meta {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  white-space: pre;
+}
+.info-hint {
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+  white-space: pre;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+#loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#loading[hidden] {
+  display: none;
+}
+#loading .bar {
+  width: 360px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+#loading .bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+#loading .bar i.indeterminate {
+  width: 35%;
+  animation: slide 1.2s ease-in-out infinite;
+}
+@keyframes slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(290%);
+  }
+}
+#loading p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 20px);
+  max-width: 600px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #2b3245;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 100;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+#toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* 设置 */
+dialog {
+  width: 540px;
+  border: 0;
+  border-radius: 16px;
+  padding: 24px 26px 18px;
+  background: #1d2333;
+  color: #e9ecf3;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+dialog h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+dialog .dim {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+dialog .small {
+  font-size: 12px;
+  margin-top: 12px;
+}
+dialog .link {
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  color: #8fb6ff;
+  cursor: pointer;
+  font-size: 14px;
+}
+dialog label {
+  display: block;
+  margin-top: 14px;
+}
+dialog label > span {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 6px;
+}
+dialog input,
+dialog select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-size: 14px;
+  user-select: text;
+}
+dialog select option {
+  background: #1d2333;
+}
+dialog input:focus,
+dialog select:focus {
+  outline: 2px solid #5c86e6;
+  border-color: transparent;
+}
+dialog label[hidden] {
+  display: none;
+}
+dialog .field {
+  display: flex;
+  gap: 6px;
+}
+dialog .field button {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: none;
+  border-radius: 6px;
+  width: 42px;
+  cursor: pointer;
+}
+dialog small {
+  display: block;
+  margin-top: 4px;
+}
+dialog .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+dialog .actions button {
+  border: 0;
+  border-radius: 20px;
+  padding: 9px 18px;
+  background: none;
+  color: #8fb6ff;
+  cursor: pointer;
+}
+dialog .actions .primary {
+  background: #3d6fe0;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- 图片 / 印刷效果 */
+
+img.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.28s;
+  pointer-events: none;
+}
+img.art.ok {
+  opacity: 1;
+}
+
+.cover-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+}
+.gen-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 8cqw;
+}
+.gen-cover span {
+  color: #fff;
+  font-size: 11cqw;
+  line-height: 1.1;
+  font-weight: 800;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 印出来的图：降一点饱和度、压一点对比，叠 45° 网点，整体压一层纸色。 */
+.printed {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.printed > * {
+  filter: saturate(0.88) contrast(0.94) sepia(0.05);
+}
+.printed.duotone > * {
+  filter: url(#duo-disc) contrast(1.05);
+}
+.printed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: rgba(243, 239, 230, 0.08);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.16) 0.6px, transparent 0.95px),
+    radial-gradient(rgba(0, 0, 0, 0.16) 0.6px, transparent 0.95px);
+  background-size: 4.5px 4.5px;
+  background-position: 0 0, 2.25px 2.25px;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--grain);
+  opacity: 0.55;
+}
+
+/* ---------------------------------------------------------------- 塑料壳 */
+
+.plastic {
+  position: relative;
+  border-radius: calc(var(--h) * 0.026);
+  background: linear-gradient(135deg, var(--plastic-l), var(--plastic) 35%, var(--plastic-d));
+  border: 0.8px solid rgba(255, 255, 255, 0.26);
+  overflow: hidden;
+}
+.gloss {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.24),
+    rgba(255, 255, 255, 0.05) 20%,
+    transparent 42%,
+    transparent 82%,
+    rgba(255, 255, 255, 0.07)
+  );
+}
+.gloss.soft {
+  opacity: 0.7;
+}
+.gloss.faint {
+  opacity: 0.5;
+}
+.lip {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5px;
+  border: 0.8px solid rgba(255, 255, 255, 0.26);
+  background: linear-gradient(rgba(0, 0, 0, var(--shade, 0)), rgba(0, 0, 0, var(--shade, 0))),
+    linear-gradient(135deg, var(--plastic), var(--plastic-d));
+}
+
+/* 正面：塑料框 + 色带 + 封面 */
+.case-window {
+  position: absolute;
+  inset: calc(var(--h) * 0.016);
+  border-radius: calc(var(--h) * 0.0117);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.case-window > .cover-art {
+  position: relative;
+  flex: 1;
+}
+.band {
+  height: calc(var(--h) * var(--band-h));
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0 calc(var(--h) * 0.032);
+  background: linear-gradient(var(--band-t), var(--band-b));
+  color: #fff;
+  white-space: nowrap;
+}
+.band b {
+  font-size: calc(var(--h) * var(--band-h) * 0.5);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+.band span {
+  margin-left: auto;
+  font-size: calc(var(--h) * var(--band-h) * 0.2);
+  font-weight: 600;
+  letter-spacing: calc(var(--h) * var(--band-h) * 0.04);
+  opacity: 0.8;
+}
+
+/* 书脊 */
+.case-spine {
+  border-radius: calc(var(--w) * 0.18);
+}
+.spine-in {
+  position: absolute;
+  inset: calc(var(--w) * 0.1);
+  border-radius: calc(var(--w) * 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.spine-band {
+  height: calc(var(--h) * var(--band-h));
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(var(--band-t), var(--band-b));
+  color: #fff;
+}
+.spine-band b {
+  font-size: calc(var(--w) * 0.4);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+.spine-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--spine-body);
+}
+.spine-title {
+  flex: 1;
+  min-height: 0;
+  padding: calc(var(--w) * 0.5) 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.spine-title span {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 100%;
+  color: var(--spine-text);
+  font-size: calc(var(--w) * 0.42);
+  font-weight: 700;
+  letter-spacing: calc(var(--w) * 0.02);
+  line-height: 1;
+}
+.spine-accent {
+  height: calc(var(--w) * 0.9);
+  flex: none;
+}
+.spine-foot {
+  height: calc(var(--w) * 0.55);
+  flex: none;
+}
+
+/* ---------------------------------------------------------------- 架子 */
+
+.floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.05), transparent);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+.cases {
+  position: absolute;
+  inset: 0;
+}
+.sc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  will-change: transform;
+}
+.sc > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+.sc-shadow {
+  border-radius: 999px;
+  pointer-events: none;
+  box-shadow: 0 calc(var(--h) * (0.01 + 0.05 * var(--w))) calc(var(--h) * (0.03 + 0.05 * var(--w)))
+    calc(var(--h) * 0.004) rgba(0, 0, 0, calc(0.7 - 0.3 * var(--w)));
+}
+.sc-dim {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--h) * 0.026);
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, calc((0.5 - 0.3 * var(--w)) * 0.6)),
+    rgba(0, 0, 0, calc(0.5 - 0.3 * var(--w)))
+  );
+  transition: opacity 0.15s;
+}
+.sc:hover .sc-dim {
+  opacity: 0.7;
+}
+.sc-top {
+  background: linear-gradient(90deg, var(--plastic-l), var(--plastic));
+  opacity: 0.92;
+  pointer-events: none;
+}
+.sc-glow {
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: 0 0 18px -4px rgba(var(--glow), calc(0.35 * var(--w)));
+}
+
+/* ---------------------------------------------------------------- 开盒 */
+
+.open-view {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.66);
+}
+.stage {
+  position: absolute;
+  inset: 0;
+  perspective-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+.cam {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.f {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  backface-visibility: hidden;
+  pointer-events: auto;
+}
+.f.media.ready {
+  cursor: pointer;
+}
+/* 盒子的面板一律接近直角：边沿和顶面都是直的，圆角会在接缝处空出一块 */
+.f .plastic,
+.f .case-spine,
+.sc .plastic,
+.sc .case-spine,
+.sc-dim {
+  border-radius: 1.5px;
+}
+.open-view {
+  cursor: grab;
+}
+.open-view.dragging,
+.open-view.dragging .f {
+  cursor: grabbing;
+}
+
+/* 转到背后看到的面：盒子外壳底面、光盘数据面、卡带背面 */
+.shell {
+  border: 0.8px solid rgba(255, 255, 255, 0.26);
+}
+.disc-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, transparent 7.5%, rgba(255, 255, 255, 0.14) 7.6%, rgba(255, 255, 255, 0.14) 22%, transparent 22.1%),
+    conic-gradient(from 20deg, #c8ccd4, #8d939e, #eef0f3, #7d838e, #d8dbe0, #9aa0aa, #c8ccd4);
+  -webkit-mask: radial-gradient(closest-side, transparent 7.5%, #000 7.6%, #000 99%, transparent 100%);
+  mask: radial-gradient(closest-side, transparent 7.5%, #000 7.6%, #000 99%, transparent 100%);
+}
+.disc-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+  background: conic-gradient(from 200deg, #ff5e7e, #ffd25e, #6cff9c, #5ec8ff, #b36bff, #ff5e7e);
+}
+.cart-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 6%;
+  clip-path: polygon(0 0, 84% 0, 100% 11%, 100% 100%, 0 100%);
+  background: linear-gradient(135deg, #3c3d42, #222326 60%, #18191b);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.cart-back-pins {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 4%;
+  height: 7%;
+  background: repeating-linear-gradient(90deg, #c9a54a 0 5%, transparent 5% 8%);
+  opacity: 0.85;
+}
+
+/* 按朝向算出来的明暗（JS 每帧调 opacity） */
+.light {
+  position: absolute;
+  inset: 0;
+  background: #02040a;
+  opacity: 0;
+  pointer-events: none;
+}
+/* 桌面接触阴影 */
+.ground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ground-shadow {
+  position: absolute;
+  border-radius: 2%;
+  background: rgba(0, 0, 0, 0.75);
+  filter: blur(18px);
+  transform: translate(10px, 14px);
+}
+/* 光盘 / 卡带投在托盘上的影子 */
+.ms-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.media-shadow {
+  position: absolute;
+  inset: 1.5%;
+  background: #000;
+}
+.media-shadow.disc {
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(closest-side, transparent 7.5%, #000 8%);
+  mask: radial-gradient(closest-side, transparent 7.5%, #000 8%);
+}
+.media-shadow.card {
+  border-radius: 6%;
+}
+.f.media .disc-shadow,
+.f.media .cart-shadow {
+  display: none;
+}
+/* 托盘、封面内侧的四角压暗（环境遮蔽） */
+.tray .case-window::after,
+.inside .case-window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 calc(var(--h) * 0.04) rgba(0, 0, 0, 0.45);
+}
+.card-tray::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--h) * 0.016);
+  border-radius: calc(var(--h) * 0.012);
+  pointer-events: none;
+  box-shadow: inset 0 0 calc(var(--h) * 0.04) rgba(0, 0, 0, 0.4);
+}
+.open-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+.open-hint.status {
+  color: #9cd3ff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- 印刷插页 */
+
+.inside .case-window,
+.tray .case-window {
+  display: block;
+}
+.insert {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+}
+.ins-hero {
+  position: relative;
+  height: 36%;
+  flex: none;
+}
+img.hero {
+  object-position: 67.5% 50%;
+}
+.ins-logo {
+  position: absolute;
+  left: calc(var(--u) * 6.5);
+  right: 30%;
+  bottom: calc(var(--u) * 4);
+  height: 28%;
+}
+img.logo {
+  object-fit: contain;
+  object-position: left bottom;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+}
+.ins-rule {
+  height: calc(var(--u) * 0.8);
+  flex: none;
+  background: var(--spot);
+}
+.ins-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--u) * 4) calc(var(--u) * 6.5) calc(var(--u) * 3);
+}
+.ins-title {
+  flex: none;
+  font-size: calc(var(--u) * 5.4);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: calc(var(--u) * 0.1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ins-meta {
+  flex: none;
+  margin-top: calc(var(--u) * 1.2);
+  font-size: calc(var(--u) * 2.3);
+  line-height: 1.35;
+  color: var(--ink-grey);
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* 简介短的时候不撑开，多出来的空白留在页脚上面；长了就缩，fitInsert 再算省略号。 */
+.ins-desc {
+  flex: 0 1 auto;
+  min-height: 0;
+  margin-top: calc(var(--u) * 2.6);
+  font-size: calc(var(--u) * 2.9);
+  line-height: 1.5;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ins-tags {
+  flex: none;
+  margin-top: calc(var(--u) * 2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--u) * 1.2) calc(var(--u) * 1.4);
+}
+.ins-tags span {
+  border: calc(var(--u) * 0.25) solid var(--spot);
+  color: var(--spot);
+  font-size: calc(var(--u) * 2.3);
+  font-weight: 700;
+  line-height: 1.2;
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 1.6);
+}
+.ins-shots {
+  flex: none;
+  margin-top: calc(var(--u) * 3);
+  display: flex;
+  gap: calc(var(--u) * 1.8);
+}
+.ins-shot {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  inset: auto;
+  border: calc(var(--u) * 0.2) solid rgba(27, 26, 25, 0.7);
+}
+.ins-shot.empty {
+  border: 0;
+}
+.ins-spacer {
+  flex: 1 1 0;
+  min-height: calc(var(--u) * 3.4);
+}
+.ins-foot {
+  flex: none;
+  height: calc(var(--u) * 12.5);
+  display: flex;
+  align-items: flex-end;
+}
+.ins-feat {
+  flex: 1;
+  min-width: 0;
+}
+.ins-foot .rating {
+  margin-right: calc(var(--u) * 2.5);
+}
+.ins-ean {
+  flex: none;
+  background: #fff;
+  padding: calc(var(--u) * 1) calc(var(--u) * 1.2) calc(var(--u) * 0.5) calc(var(--u) * 0.8);
+}
+.ins-ean svg {
+  display: block;
+  height: calc(var(--u) * 10);
+  width: calc(var(--u) * 10 * 103 / 36);
+}
+.ean-digits {
+  font-size: 7.2px;
+  font-family: ui-monospace, Consolas, Menlo, monospace;
+  font-weight: 500;
+}
+.ins-legal {
+  flex: none;
+  margin-top: calc(var(--u) * 2.2);
+  font-size: calc(var(--u) * 1.75);
+  line-height: 1.3;
+  color: var(--ink-grey);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rating {
+  flex: none;
+  width: var(--s);
+  height: calc(var(--s) * 1.18);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: calc(var(--s) * 0.05) solid var(--ink);
+}
+.rating-age {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: calc(var(--s) * 0.42);
+  font-weight: 900;
+  line-height: 1;
+}
+.rating-note {
+  height: calc(var(--s) * 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-size: calc(var(--s) * 0.15);
+  font-weight: 700;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--s) * 0.25);
+}
+.feature {
+  width: calc(var(--s) * 1.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.feature-icon {
+  width: var(--s);
+  height: var(--s);
+  border: calc(var(--s) * 0.06) solid var(--ink);
+  padding: calc(var(--s) * 0.1);
+}
+.feature-label {
+  margin-top: calc(var(--s) * 0.1);
+  font-size: calc(var(--s) * 0.26);
+  line-height: 1.1;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* 封面内侧：透明套膜 + 卡扣 */
+.sleeve {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    106deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.16) 18%,
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 62%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent 80%
+  );
+}
+.clip {
+  position: absolute;
+  right: calc(var(--h) * 0.0024);
+  width: calc(var(--h) * 0.035);
+  height: calc(var(--h) * 0.056);
+  border-radius: calc(var(--h) * 0.016);
+  background: linear-gradient(90deg, var(--plastic-l), var(--plastic));
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------------------------------------------------------------- 托盘 */
+
+.tray-small {
+  position: absolute;
+  left: 7%;
+  bottom: 3.5%;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: calc(var(--h) * 0.016);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.tray-tint {
+  position: absolute;
+  inset: 0;
+  background: var(--plastic);
+  opacity: 0.55;
+}
+.mold,
+.hub {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+.emboss {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  text-align: center;
+  font-size: calc(var(--h) * 0.03);
+  font-weight: 900;
+  letter-spacing: calc(var(--h) * 0.008);
+  color: color-mix(in srgb, var(--plastic-d) 55%, transparent);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* ---------------------------------------------------------------- 光盘 */
+
+.disc {
+  position: relative;
+  border-radius: 50%;
+}
+.disc > * {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.disc-shadow {
+  box-shadow: 0 calc(3px + 18px * var(--lift, 0)) calc(8px + 34px * var(--lift, 0)) -2px
+    rgba(0, 0, 0, calc(0.5 - 0.15 * var(--lift, 0)));
+}
+.disc-label {
+  -webkit-mask: radial-gradient(closest-side, transparent 29.7%, #000 30%, #000 98.2%, transparent 98.5%);
+  mask: radial-gradient(closest-side, transparent 29.7%, #000 30%, #000 98.2%, transparent 98.5%);
+}
+.disc-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(closest-side, transparent 29.6%, rgba(0, 0, 0, 0.4) 30.2%, transparent 31.2%),
+    radial-gradient(closest-side, rgba(0, 0, 0, 0.4) 30%, transparent 42%, transparent 78%, rgba(0, 0, 0, 0.55) 100%);
+}
+.disc-pc {
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: var(--ink);
+  padding: calc(var(--d) * 0.004) calc(var(--d) * 0.012);
+  font-size: calc(var(--d) * 0.04);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+.disc-rating {
+  position: absolute;
+  left: 75%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.disc-arc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.disc-arc text {
+  font-size: 2.25px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  fill: rgba(255, 255, 255, 0.85);
+  stroke: rgba(0, 0, 0, 0.45);
+  stroke-width: 0.35px;
+  paint-order: stroke;
+}
+.disc-hub {
+  background: radial-gradient(closest-side, transparent 7.3%, rgba(255, 255, 255, 0.4) 7.5%, transparent 7.9%),
+    radial-gradient(closest-side, transparent 10.8%, rgba(255, 255, 255, 0.28) 11%, transparent 11.3%),
+    radial-gradient(closest-side, transparent 13.3%, rgba(255, 255, 255, 0.28) 13.5%, transparent 13.8%),
+    radial-gradient(closest-side, transparent 19.8%, rgba(255, 255, 255, 0.28) 20%, transparent 20.3%),
+    radial-gradient(closest-side, transparent 15.8%, rgba(255, 255, 255, 0.18) 15.9%, rgba(255, 255, 255, 0.18) 17.7%, transparent 17.8%),
+    radial-gradient(closest-side, transparent 7.5%, rgba(255, 255, 255, 0.13) 7.6%, rgba(255, 255, 255, 0.13) 22%, transparent 22.1%);
+}
+.disc-mirror,
+.disc-rainbow {
+  -webkit-mask: radial-gradient(closest-side, transparent 21.8%, #000 22.1%, #000 29.8%, transparent 30.1%);
+  mask: radial-gradient(closest-side, transparent 21.8%, #000 22.1%, #000 29.8%, transparent 30.1%);
+}
+.disc-mirror {
+  background: conic-gradient(
+    from calc(var(--sheen, 0rad) + 90deg),
+    #dadfe6,
+    #7f8691,
+    #f6f8fa,
+    #747b86,
+    #e4e7eb,
+    #959ba5,
+    #dadfe6
+  );
+}
+.disc-rainbow {
+  mix-blend-mode: overlay;
+  background: conic-gradient(
+    from calc(var(--rainbow, 0rad) + 90deg),
+    #ff5e7e,
+    #ffd25e,
+    #6cff9c,
+    #5ec8ff,
+    #b36bff,
+    #ff5e7e
+  );
+}
+.disc-gloss {
+  -webkit-mask: radial-gradient(closest-side, transparent 30%, #000 30.2%, #000 98.4%, transparent 98.6%);
+  mask: radial-gradient(closest-side, transparent 30%, #000 30.2%, #000 98.4%, transparent 98.6%);
+  background: conic-gradient(
+    from calc(var(--sheen, 0rad) + 90deg),
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 8%,
+    rgba(255, 255, 255, 0) 18%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.12) 58%,
+    rgba(255, 255, 255, 0) 68%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+.disc-rim {
+  -webkit-mask: radial-gradient(closest-side, transparent 98.1%, #000 98.4%);
+  mask: radial-gradient(closest-side, transparent 98.1%, #000 98.4%);
+  background: conic-gradient(from calc(var(--sheen, 0rad) + 90deg), #e8ecf0, #8e96a2, #fff, #8e96a2, #e8ecf0);
+}
+
+/* ---------------------------------------------------------------- 卡带 */
+
+.cart {
+  position: relative;
+}
+.cart-shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--w) * 0.06);
+  box-shadow: 0 calc(var(--w) * (0.03 + 0.12 * var(--cglow, 0))) calc(var(--w) * (0.06 + 0.25 * var(--cglow, 0)))
+    rgba(0, 0, 0, calc(0.55 - 0.2 * var(--cglow, 0)));
+}
+.cart-body {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--w) * 0.06);
+  clip-path: polygon(0 0, calc(100% - var(--w) * 0.16) 0, 100% calc(var(--w) * 0.16), 100% 100%, 0 100%);
+  background: linear-gradient(135deg, #4a4b50, #2a2b2f 50%, #1d1e21);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffc2c2 calc(var(--cglow, 0) * 100%), rgba(255, 255, 255, 0.24));
+}
+.cart-grip {
+  position: absolute;
+  left: 14%;
+  right: 30%;
+  top: 4.5%;
+  height: 9.3%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0,
+    rgba(0, 0, 0, 0.45) 9.68%,
+    transparent 9.68%,
+    transparent 30.1%
+  );
+}
+.cart-label {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 19%;
+  bottom: 6%;
+  border-radius: calc(var(--w) * 0.034);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+.cart-strip {
+  flex: none;
+  height: calc(var(--w) * 0.11);
+  display: flex;
+  align-items: center;
+  padding: 0 calc(var(--w) * 0.05);
+  background: var(--spot);
+  color: #fff;
+  font-size: calc(var(--w) * 0.076);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+.cart-label .printed {
+  position: relative;
+  flex: 1;
+}
+.cart-label img.art {
+  object-position: 50% 0;
+}
+.cart-name {
+  flex: none;
+  height: calc(var(--w) * 0.17);
+  line-height: calc(var(--w) * 0.17);
+  padding: 0 calc(var(--w) * 0.05);
+  font-size: calc(var(--w) * 0.068);
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-gloss {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, calc(0.18 + 0.1 * var(--cglow, 0))),
+    transparent 30%,
+    transparent 75%,
+    rgba(255, 255, 255, 0.06)
+  );
+}
+
+/* ---------------------------------------------------------------- 插入动画的 3D 主机 */
+
+.console-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256" role="img" aria-label="gamelib mark">
+  <title>gamelib</title>
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#1B2B3B"/>
+      <stop offset="1" stop-color="#0C1421"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="248" height="248" rx="56" fill="url(#ink)"/>
+  <rect x="4.75" y="4.75" width="246.5" height="246.5" rx="55.25" fill="none" stroke="#D5F5ED" stroke-opacity=".17" stroke-width="1.5"/>
+  <g transform="translate(6 -9)">
+    <path d="M164 70h-44a42 42 0 0 0 0 84h44m0-84v91c0 26-17 44-44 44H94" fill="none" stroke="#F4F6F4" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="110" y="97" width="25" height="31" rx="5" fill="#80E6CB" transform="rotate(-8 122.5 112.5)"/>
+    <path d="M117 121h10" stroke="#12332C" stroke-width="2.5" stroke-linecap="round" transform="rotate(-8 122.5 112.5)"/>
+  </g>
+</svg>

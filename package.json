@@ -1,0 +1,52 @@
+{
+  "name": "gamelib",
+  "productName": "gamelib",
+  "version": "0.2.6",
+  "description": "Steam 游戏库，做成光盘盒 / 卡带盒的样子",
+  "main": "src/main/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.js",
+    "dist:win": "electron-builder --win portable --x64",
+    "dist:mac": "electron-builder --mac dir",
+    "check-data": "node --no-warnings scripts/check-data.js"
+  },
+  "build": {
+    "appId": "local.gamelib",
+    "productName": "gamelib",
+    "icon": "src/renderer/branding/icon.png",
+    "files": [
+      "src/**/*",
+      "package.json",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "src/renderer/branding/icon.ico",
+      "artifactName": "gamelib-${version}-portable.${ext}",
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "target": "dir"
+    },
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
+    }
+  },
+  "devDependencies": {
+    "electron": "45.2.3",
+    "electron-builder": "26.18.0",
+    "three": "^0.187.0"
+  }
+}
